@@ -1,0 +1,14 @@
+[tool.ruff]
+exclude = [
+    ".venv",
+    "src/migrations/versions",
+]
+output-format = "concise"
+
+[tool.ruff.lint.per-file-ignores]
+"src/api/facilities.py" = ["B008"]
+"src/api/hotels.py" = ["B008", "DTZ011"]
+"src/api/rooms.py" = ["B008"]
+"src/models/__init__.py" = ["F401"]
+"tests/conftest.py" = ["ASYNC230"]
+"tests/itegration_tests/bookings/test_db.py" = ["DTZ011"]
