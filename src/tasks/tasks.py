@@ -9,6 +9,7 @@ from src.database import async_session_maker_null_pool
 from src.schemas.images import ImageAdd, RoomImageAdd
 from src.tasks.celery_app import celery_instance
 from src.utils.db_manager import DBManager
+from src.utils.email_sendler import send_email, send_email_chekin_td
 
 
 async def save_images_to_db(room_id: int, image_paths: list[str], source_image: str):
@@ -58,10 +59,13 @@ def resize_image(room_id: int, image_path: str):
 
 
 async def get_booking_chekin_today_helper():
+    async with DBManager(
+        session_factory=async_session_maker_null_pool
+    ) as db:
+        user_ids = await db.bookings.get_booking_chekin_today()
 
-    async with DBManager(session_factory=async_session_maker_null_pool) as db:
-        bookings_ids = await db.bookings.get_booking_chekin_today()
-        print(bookings_ids)
+    for user_id in set(user_ids):
+        await send_email_chekin_td(user_id)
 
 
 @celery_instance.task(name="booking_today_chekin")

@@ -29,5 +29,11 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env")
 
+    MAIL_SERVER: str
+    MAIL_PORT: int
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_FROM: str
+
 
 settings = Settings()
