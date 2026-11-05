@@ -3,7 +3,7 @@ docker network create myNetwork
 docker run --name booking_db \
     -p 6432:5432 \
     -e POSTGRES_USER=postgres \
-    -e POSTGRES_PASSWORD=1234 \
+    -e POSTGRES_PASSWORD=12hjkdfvsjkhjksdhkjfghsbm34 \
     -e POSTGRES_DB=booking \
     --network=myNetwork \
     --volume pg-booking-data:/var/lib/postgresql/data \
@@ -45,3 +45,10 @@ git config user.name "alexandr konoplev"
 git config user.email "viloni34@gmail.com"
 
 git remote add gitlab git@gitlab.com:none8643745/booking.git
+
+
+
+docker run --name booking_nginx \
+    -v ./nginx.conf:/etc/nginx/nginx.conf \
+    --network=myNetwork \
+    --rm -p 80:80 nginx
